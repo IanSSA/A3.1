@@ -5,23 +5,47 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-        <title>Formulario 2</title>
+        <title>Crear productos</title>
 
         <?php
-        $pagina = isset($_POST["nombre"]) ? $_POST["pagina_actual"] : "";
-        // Con el basename solo sacamos el nombre del fichero, no toda la URL
-        $name_pagina = isset($_POST["pagina_actual"]) ? basename($_POST["pagina_actual"]) : "";
+
+        function crear_productos(){
+            $servername = "localhost";
+            $username = "mitiendaonline";
+            $password = "contraseña";
+            $db = "mitiendaonline";
+    
+            $conn = new mysqli($servername, $username, $password, $db);
+    
+            if ($conn->connect_error) {
+              die("Connection failed: " . $conn->connect_error);
+            }
+            echo "Connected successfully";
         $nombre = isset($_POST["nombre"]) ? $_POST["nombre"] : "";
-        $apellidos = isset($_POST["apellidos"]) ? $_POST["apellidos"] : "";
-        $telefono = isset($_POST["phone"]) ? $_POST["phone"] : "";
-        $email = isset($_POST["email"]) ? $_POST["email"] : "";
-        $password = isset($_POST["password"]) ? $_POST["password"] : "";
-        $sexo = isset($_POST['sexo']) ? $_POST['sexo'] : "";
-        $edad = isset($_POST['edad']) ? $_POST['edad'] : "";
-        $pais = isset($_POST['pais']) ? $_POST['pais'] : "";
-        $asignaturas_array = array_keys($_POST, "on");
-        $asignaturas = arraystring($asignaturas_array);
-        $errores = "";
+        $categoria = isset($_POST["categoria"]) ? $_POST["categoria"] : "";
+        $precio = isset($_POST["precio"]) ? $_POST["precio"] : "";
+        $imagen = $_FILES['imagen']['name'];
+        $id = 0;
+
+        $sql = "SELECT id FROM productos";
+
+        $datos = mysqli_query($conn, $sql);
+        $arrayDatos = array();
+
+        while($row = mysqli_fetch_array($datos)){
+            $arrayDatos[] = $row;
+        }
+        print_r ($arrayDatos);
+
+        $sql = "INSERT INTO productos (id, nombre, precio, categria, imagen) VALUES ($id, $nombre, $precio, $categoria, $imagen)";
+        if (mysqli_query($conn, $sql)) {
+            echo "New record created successfully";
+        } else {
+            echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+        }
+        mysqli_close($conn);
+        }
+        
     ?>
     </head>
     <body class="d-flex align-items-center">  
