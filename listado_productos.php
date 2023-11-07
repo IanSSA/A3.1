@@ -46,13 +46,16 @@
                 $categoria = $categoria->fetch_assoc();
                 $categoria = $categoria["Nombre"];
                 echo "<br>";
+                echo "<form action='edita_producto.php'>";
                 echo "<tr>";
                 echo '<td>'.$id.'</td>';
+                echo "<input type='hidden' name='id' value='". $id . "'>";
                 echo '<td>'.$Nombre.'</td>';
                 echo '<td>'.$Precio.'</td>';
                 echo '<td><img src="imagenes/'.$Imagen.'"width="80" height="80"/></td>';
                 echo '<td>'.$categoria.'</td>';
                 echo "</tr>";
+                echo "</form>";
                 echo "<br>";
             }
             echo '</table>';
