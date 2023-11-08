@@ -8,11 +8,9 @@
         <title>Crear productos</title>
 
         <?php
-
-        function crear_productos(){
             $servername = "localhost";
             $username = "mitiendaonline";
-            $password = "contraseña";
+            $password = "mitiendaonline";
             $db = "mitiendaonline";
     
             $conn = new mysqli($servername, $username, $password, $db);
@@ -20,31 +18,44 @@
             if ($conn->connect_error) {
               die("Connection failed: " . $conn->connect_error);
             }
-            echo "Connected successfully";
-        $nombre = isset($_POST["nombre"]) ? $_POST["nombre"] : "";
-        $categoria = isset($_POST["categoria"]) ? $_POST["categoria"] : "";
-        $precio = isset($_POST["precio"]) ? $_POST["precio"] : "";
-        $imagen = $_FILES['imagen']['name'];
-        $id = 0;
 
-        $sql = "SELECT id FROM productos";
+            if (isset($_POST["nombre"])){
+                $nombre = isset($_POST["nombre"]) ? $_POST["nombre"] : "";
+                $categoria = isset($_POST["categoria"]) ? $_POST["categoria"] : "";
+                $precio = isset($_POST["precio"]) ? $_POST["precio"] : "";
+                $precio = (int)$precio;
+                $imagen = $_FILES['imagen']['name'];
+                $id = 0;
+                if ($categoria == "comida"){
+                    $categoria = 1;
+                } else if ($categoria == "deporte"){
+                    $categoria = 2;
+                } else if ($categoria == "cocina"){
+                    $categoria = 3;
+                } else if ($categoria == "herramientas"){
+                    $categoria = 4;
+                }
+                $ids = "SELECT id FROM productos";
+                $ids_query = $conn->query($ids);
 
-        $datos = mysqli_query($conn, $sql);
-        $arrayDatos = array();
+                if ($ids_query->num_rows > 0) {
+                    while($row = $ids_query->fetch_assoc()) {
+                        $id = $row["id"];
+                    }
+                    $id = $id +1;
+                } else {
+                    echo "0 results";
+                }
 
-        while($row = mysqli_fetch_array($datos)){
-            $arrayDatos[] = $row;
-        }
-        print_r ($arrayDatos);
+                $sql = "INSERT INTO `productos`(`id`, `Nombre`, `Precio`, `Imagen`, `Categoría`) VALUES ($id, '$nombre', $precio, '$imagen', $categoria)";
 
-        $sql = "INSERT INTO productos (id, nombre, precio, categria, imagen) VALUES ($id, $nombre, $precio, $categoria, $imagen)";
-        if (mysqli_query($conn, $sql)) {
-            echo "New record created successfully";
-        } else {
-            echo "Error: " . $sql . "<br>" . mysqli_error($conn);
-        }
-        mysqli_close($conn);
-        }
+                if (mysqli_query($conn, $sql)) {
+                    echo "Se ha añadido correctamente";
+                } else {
+                    echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+                }
+                mysqli_close($conn);
+            }
         
     ?>
     </head>
@@ -72,7 +83,7 @@
                         <option value="herramientas">Herramientas</option>
                     </select>
             
-                <button type="submit" class="submit btn btn-primary mt-3">Enviar</button>
+                <button type="submit" class="submit btn btn-primary mt-3" onclick="crear_productos()">Enviar</button>
             </form>
         </div>
 

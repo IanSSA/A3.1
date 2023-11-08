@@ -12,8 +12,9 @@
     <?php
         $servername = "localhost";
         $username = "mitiendaonline";
-        $password = "contraseña";
+        $password = "mitiendaonline";
         $db = "mitiendaonline";
+        session_start();
 
         $conn = new mysqli($servername, $username, $password, $db);
 
@@ -34,6 +35,8 @@
             echo "<th>Precio</th>";
             echo "<th>Imagen</th>";
             echo "<th>Categoría</th>";
+            echo "<th>Editar</th>";
+            echo "<th>Eliminar</th>";
             echo "</tr>";
             while ($row = $result->fetch_assoc()) {
                 $id = $row["id"];
@@ -54,6 +57,8 @@
                 echo '<td>'.$Precio.'</td>';
                 echo '<td><img src="imagenes/'.$Imagen.'"width="80" height="80"/></td>';
                 echo '<td>'.$categoria.'</td>';
+                echo '<td><a href="edita_producto.php?id_editar='. $id . '">Editar</a> </td>';
+                echo '<td><a href="elimina_producto.php?id_eliminar='. $id . '">Elimina</a> </td>';
                 echo "</tr>";
                 echo "</form>";
                 echo "<br>";
