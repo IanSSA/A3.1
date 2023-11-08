@@ -18,7 +18,6 @@
             if ($conn->connect_error) {
               die("Connection failed: " . $conn->connect_error);
             }
-            echo "Connected successfully";
 
             if (isset($_POST["nombre"])){
                 $nombre = isset($_POST["nombre"]) ? $_POST["nombre"] : "";
@@ -40,27 +39,20 @@
                 $ids_query = $conn->query($ids);
 
                 if ($ids_query->num_rows > 0) {
-                    echo gettype($id), "\n";
-                    echo gettype($nombre), "\n";
-                    echo $nombre, "\n";
-                    echo gettype($precio), "\n";
-                    echo $imagen, "\n";
-                    echo gettype($imagen), "\n";
-                    echo gettype($categoria), "\n";
                     while($row = $ids_query->fetch_assoc()) {
-                        echo "gesg" . $row["id"];
                         $id = $row["id"];
                     }
+                    $id = $id +1;
                 } else {
                     echo "0 results";
                 }
 
-                $sql = "INSERT INTO `productos`(`id`, `Nombre`, `Precio`, `Imagen`, `Categoría`) VALUES ($id, $nombre, $precio, $imagen, $categoria)";
-                $pru = "INSERT INTO `productos`(`id`, `Nombre`, `Precio`, `Imagen`, `Categoría`) VALUES (2,'prueba',$precio,'prueba wg.jpg',1)";
-                if (mysqli_query($conn, $pru)) {
-                    echo "New record created successfully";
+                $sql = "INSERT INTO `productos`(`id`, `Nombre`, `Precio`, `Imagen`, `Categoría`) VALUES ($id, '$nombre', $precio, '$imagen', $categoria)";
+
+                if (mysqli_query($conn, $sql)) {
+                    echo "Se ha añadido correctamente";
                 } else {
-                    echo "Error: " . $pru . "<br>" . mysqli_error($conn);
+                    echo "Error: " . $sql . "<br>" . mysqli_error($conn);
                 }
                 mysqli_close($conn);
             }
