@@ -75,10 +75,10 @@
                         $categoria = 4;
                     }
 
-                    $sql = "UPDATE productos SET id='$id_cambiar', Nombre='$nombre', Precio='$precio', Imagen='$imagen', Categoría='$categoria' WHERE id='$id_cambiar'";
+                    $sql = "DELETE productos WHERE id='$id_cambiar'";
 
                     if (mysqli_query($conn, $sql)) {
-                        echo "Se ha modificado correctamente";
+                        echo "Se ha eliminado correctamente";
                         echo '<style type="text/css">
                         #div {
                             display: none;

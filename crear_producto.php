@@ -5,6 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="crear_producto.css">
         <title>Crear productos</title>
 
         <?php
@@ -25,6 +26,10 @@
                 $precio = isset($_POST["precio"]) ? $_POST["precio"] : "";
                 $precio = (int)$precio;
                 $imagen = $_FILES['imagen']['name'];
+                $imagen_ = $_FILES['imagen'];
+                $ruta = './imagenes/';
+                $nombre_imagen = $ruta . basename($imagen_['name']);
+                move_uploaded_file($imagen_['tmp_name'], $nombre_imagen);
                 $id = 0;
                 if ($categoria == "comida"){
                     $categoria = 1;
@@ -51,6 +56,11 @@
 
                 if (mysqli_query($conn, $sql)) {
                     echo "Se ha añadido correctamente";
+                    echo '<style type="text/css">
+                        #div {
+                            display: none;
+                        }
+                        </style>';
                 } else {
                     echo "Error: " . $sql . "<br>" . mysqli_error($conn);
                 }
@@ -60,7 +70,7 @@
     ?>
     </head>
     <body class="d-flex align-items-center">  
-        <div  class="d-flex justify-content-center container formulario mt-5">
+        <div id="div" class="d-flex justify-content-center container formulario mt-5">
             <form class="form" action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="post" enctype="multipart/form-data">
             <input type="hidden" name="pagina_actual" value="<?php echo $_SERVER['REQUEST_URI']; ?>">
 
@@ -82,7 +92,7 @@
                         <option value="cocina" >Cocina</option>
                         <option value="herramientas">Herramientas</option>
                     </select>
-            
+                <br>
                 <button type="submit" class="submit btn btn-primary mt-3" onclick="crear_productos()">Enviar</button>
             </form>
         </div>

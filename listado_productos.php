@@ -21,10 +21,9 @@
         if ($conn->connect_error) {
           die("Connection failed: " . $conn->connect_error);
         }
-        echo "Connected successfully";
 
         $query = "SELECT * FROM productos";
-        echo "<b> <center>Database Output</center> </b> <br> <br>";
+        echo "<h2> <center>Listado de productos</center> </h2>";
 
         if ($result = $conn->query($query)) {
             echo "<div>";
@@ -57,7 +56,7 @@
                 echo '<td>'.$Precio.'</td>';
                 echo '<td><img src="imagenes/'.$Imagen.'"width="80" height="80"/></td>';
                 echo '<td>'.$categoria.'</td>';
-                echo '<td><a href="edita_producto.php?id_editar='. $id . '">Editar</a> </td>';
+                echo '<td><a href="edita_producto.php?id_editar=">Editar</a> </td>';
                 echo '<td><a href="elimina_producto.php?id_eliminar='. $id . '">Elimina</a> </td>';
                 echo "</tr>";
                 echo "</form>";
@@ -70,7 +69,8 @@
         /*freeresultset*/
         $result->free();
     ?>
-    <title>Document</title>
+     <link rel="stylesheet" href="listado_producto.css">
+    <title>Listado productos</title>
 </head>
 <body>
     
