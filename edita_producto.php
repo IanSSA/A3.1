@@ -64,6 +64,15 @@
                     $precio = isset($_POST["precio"]) ? $_POST["precio"] : "";
                     $precio = (int)$precio;
                     $imagen = $_FILES['imagen']['name'];
+                    echo $imagen;
+                    if ($_FILES['imagen']['name'] == ""){
+                        $coca = "23";
+                        $imagen = $Imagen_cambiar;
+                    } else{
+                        $coca = "12";
+                        $imagen = $_FILES['imagen']['name'];
+                    }
+
                     $id = 0;
                     if ($categoria == "comida"){
                         $categoria = 1;
@@ -79,8 +88,15 @@
 
                     if (mysqli_query($conn, $sql)) {
                         echo "Se ha modificado correctamente";
+                        echo $coca;
+                        echo $Imagen_cambiar;
+                        echo '<br><a href="listado_productos.php">Volver al listado</a>';
                         echo '<style type="text/css">
                         #div {
+                            display: none;
+                        }
+
+                        form {
                             display: none;
                         }
                         </style>';

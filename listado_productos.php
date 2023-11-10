@@ -63,6 +63,9 @@
                 echo "<br>";
             }
             echo '</table>';
+            echo '<div id="enlace">';
+            echo '<a href="crear_producto.php">Crear nuevo producto</a>';
+            echo'</div>';
             echo "</div>";
         }
 

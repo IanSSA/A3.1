@@ -95,6 +95,7 @@
                 <br>
                 <button type="submit" class="submit btn btn-primary mt-3" onclick="crear_productos()">Enviar</button>
             </form>
+            <a href="listado_productos.php">Ir al listado</a>
         </div>
 
     </body>
