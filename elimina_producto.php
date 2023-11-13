@@ -1,4 +1,4 @@
-<!DOCTYPE HTML>  
+<!DOCTYPE html>  
 <html>
     <head>
         <meta charset="UTF-8">
@@ -7,70 +7,107 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
         <link rel="stylesheet" href="edita_producto.css">
         <title>Eliminar producto</title>
-
-        <?php
-            $servername = "localhost";
-            $username = "mitiendaonline";
-            $password = "mitiendaonline";
-            $db = "mitiendaonline";
-            session_start();
-    
-            $conn = new mysqli($servername, $username, $password, $db);
-    
-            if ($conn->connect_error) {
-              die("Connection failed: " . $conn->connect_error);
-            }
-
-            $id_cambiar = $_GET['id_eliminar'];
-            if ($id_cambiar == ""){
-                echo '<style type="text/css">
-                        body {
-                            text-align: center;
-                        }
-                        #div {
-                            display: none;
-                        }
-                        </style>';
-                $productos = "SELECT * FROM productos";
-                if ($result = $conn->query($productos)) {
-                    $server = $_SERVER['REQUEST_URI'];
-                    echo "<div>";
-                    echo "<h1>ID no encotrada, seleccione el producto a editar</h1>";
-                    echo "<form action='$server' method='get'>";
-                    echo "<select name='id_editar'>";
-                    while ($row = $result->fetch_assoc()) {
-                        $id = $row["id"];
-                        $Nombre = $row["Nombre"];
-                        echo '<option value='.$id.'>'.$Nombre.'</option>';
-                        echo "<br>";
-                    }
-                    echo '</select><br>';
-                    echo '<button type="submit" class="submit btn btn-primary mt-3">Enviar</button>';
-                    echo '</form>';
-                    echo "</div>";
-                }
-            } else {
-
-                    $sql = "DELETE FROM productos WHERE id='$id_cambiar'";
-
-                    if (mysqli_query($conn, $sql)) {
-                        echo "Se ha eliminado correctamente";
-                        echo '<style type="text/css">
-                        #div {
-                            display: none;
-                        }
-                        </style>';
-                    } else {
-                        echo "Error: " . $sql . "<br>" . mysqli_error($conn);
-                    }
-                    mysqli_close($conn);
-                }
-        
-    ?>
+        <style>
+          div {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+          }
+          th, td {
+            border: #21252a solid;
+            padding-inline: 2%;
+            text-align: center;
+          }
+          select {display: block;}
+        </style>
     </head>
-    <body class="d-flex align-items-center">  
-        <div name="div"  <?php if ($id_cambiar == ""){ echo 'style="display:none;"'; } ?>>
-            <a href="listado_productos.php">Volver al listado</a>
+    <body>
+        <?php 
+        //Conexión, siempre se produce al inicio.
+        $servername = "localhost";
+        $username = "mitiendaonline";
+        $password = "mitiendaonline";
+        $db = "mitiendaonline";
+        session_start();
+
+        $conn = new mysqli($servername, $username, $password, $db);
+
+        if ($conn->connect_error) {
+          die("Connection failed: " . $conn->connect_error);
+        }        
+        ?>
+        <!--Si el usuario hizo click en Eliminar:-->
+        <?php if(isset($_POST["idBorrado"])): ?> 
+        <?php
+        $borrado = "DELETE FROM productos WHERE id=".$_POST["idBorrado"];
+        if (mysqli_query($conn,$borrado)){
+            echo "<div>";
+            echo "<h2>Producto eliminado correctamente</h2>";
+            echo "<h3><a href='listado_productos.php'>Volver al listado</a></h3>";
+            echo "</div>";
+        } else{
+            echo "Error: " . $borrado . "<br>" . mysqli_error($conn);
+        }
+        ?>
+        <!--Si el usuario accedió a elimina_producto.php desde el índice:-->
+        <?php elseif(empty($_GET)): ?>
+        <div>
+          <h1>ID no encontrada, seleccione el producto a eliminar:</h1>
+          <form action="elimina_producto.php" method="get">
+              <select name="id_eliminar">
+                  <?php
+                  $datos = "SELECT id, nombre FROM PRODUCTOS;";
+                  if ($result = $conn->query($datos)){
+                      while ($row = $result->fetch_assoc()){
+                          $id = $row["id"];
+                          $Nombre = $row["nombre"];
+                          echo "<option value=$id>$Nombre</option>";
+                      }
+                  }
+                  ?>
+              </select>
+              <button type="submit" class="submit btn btn-primary mt-3" onclick="crear_productos()">Enviar</button>
+          </form>
         </div>
+        <!--Si el usuario seleccionó el producto a Eliminar o accedió a elimina_producto.php desde listado_productos.php:-->
+        <?php elseif (empty($_POST)):?> 
+        <?php
+        $datos = "SELECT 
+        p.id AS id, 
+        p.nombre AS nombre, 
+        precio, 
+        imagen, 
+        c.nombre AS categoria 
+        FROM productos p INNER JOIN categorías c ON p.categoría = c.id 
+        WHERE p.id=".$_GET["id_eliminar"].";"
+        ;
+        $result = $conn->query($datos);
+        $row = $result->fetch_assoc();
+        ?>
+        <div>
+          <h2>Eliminar <?php echo $row["nombre"];?></h2>
+          <table>
+            <tr>
+              <th>Nombre del producto</th>
+              <th>Precio del producto</th>
+              <th>Imagen del producto</th>
+              <th>Categoría del producto</th>
+            </tr>
+            <tr>
+               <td>"<?php echo $row["nombre"]?>"</td>
+               <td><?php echo $row["precio"]?></td>
+               <td><img src=<?php echo "imagenes/".$row["imagen"]?> width="100" height="100"></td>
+               <td>"<?php echo $row["categoria"]?>"</td>
+            </tr>
+          </table>
+          <form action="elimina_producto.php" method="post">
+              <input type="hidden" name="idBorrado" value="<?php echo $row["id"]?>">
+              <input type="submit" value="Eliminar">
+          </form>
+        </div>
+        <?php endif;?>
+        <?php
+        //Desconexión, siempre se produce al final.
+        mysqli_close($conn);
+        ?>
     </body>
-</html>
