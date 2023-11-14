@@ -21,7 +21,7 @@
               die("Connection failed: " . $conn->connect_error);
             }
 
-            $id_cambiar = $_GET['id_editar'];
+            $id_cambiar = $_GET['id_eliminar'];
             if ($id_cambiar == ""){
                 echo '<style type="text/css">
                         body {
@@ -51,7 +51,7 @@
                 }
             } else {
 
-                    $sql = "DELETE productos WHERE id='$id_cambiar'";
+                    $sql = "DELETE FROM productos WHERE id='$id_cambiar'";
 
                     if (mysqli_query($conn, $sql)) {
                         echo "Se ha eliminado correctamente";
