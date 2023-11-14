@@ -87,10 +87,12 @@
                     $sql = "UPDATE productos SET id='$id_cambiar', Nombre='$nombre', Precio='$precio', Imagen='$imagen', Categoría='$categoria' WHERE id='$id_cambiar'";
 
                     if (mysqli_query($conn, $sql)) {
-                        echo "Se ha modificado correctamente";
-                        echo $coca;
-                        echo $Imagen_cambiar;
-                        echo '<br><a href="listado_productos.php">Volver al listado</a>';
+                        echo "<div style='width:300px; margin-right: 30px'>";
+                        echo "<h2>Se ha modificado correctamente </h2>";
+                        echo "</div>";
+                        echo "<div style='width:180px; margin-left: 30px'>";
+                        echo '<h3><a href="listado_productos.php"> Volver al listado</a></h3>';
+                        echo "</div>";
                         echo '<style type="text/css">
                         #div {
                             display: none;
@@ -110,7 +112,7 @@
     ?>
     </head>
     <body class="d-flex align-items-center">  
-        <div name="div"  <?php if ($id_cambiar == ""){ echo 'style="display:none;"'; } ?>>
+        <div name="div" id="div"  <?php if ($id_cambiar == ""){ echo 'style="display:none;"'; } ?>>
             <form class="form" action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="post" enctype="multipart/form-data" <?php if ($id_cambiar == ""){ echo 'style="display:none;"'; } ?>>
             <input type="hidden" name="pagina_actual" value="<?php echo $_SERVER['REQUEST_URI']; ?>">
 

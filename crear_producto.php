@@ -56,10 +56,13 @@
 
                 if (mysqli_query($conn, $sql)) {
                     echo "Se ha añadido correctamente";
+                    echo "<a href='listado_productos.php'>Ir al listado</a>";
                     echo '<style type="text/css">
                         #div {
                             display: none;
                         }
+                        form {
+                            display:none;
                         </style>';
                 } else {
                     echo "Error: " . $sql . "<br>" . mysqli_error($conn);
@@ -87,15 +90,21 @@
                 
                 <p>Categoría: <p>
                     <select name="categoria" id="categoria" multiple>
-                        <option value="comida">Comida</option>
-                        <option value="deporte">Deporte</option>
-                        <option value="cocina" >Cocina</option>
-                        <option value="herramientas">Herramientas</option>
+                    <?php                 
+                      $categorias = "SELECT * FROM categorías";
+                      if ($result = $conn->query($categorias)) {
+                          while ($row = $result->fetch_assoc()) {
+                              $id_row = $row["Id"];
+                              $categoria_row = $row["Nombre"];
+                                echo '<option value="' . $categoria_row . '">'. $categoria_row . '</option>';
+                          }
+                        }
+                      ?>
                     </select>
                 <br>
                 <button type="submit" class="submit btn btn-primary mt-3" onclick="crear_productos()">Enviar</button>
-            </form>
-            <a href="listado_productos.php">Ir al listado</a>
+                <a href="listado_productos.php">Ir al listado</a>
+            </form><br>
         </div>
 
     </body>

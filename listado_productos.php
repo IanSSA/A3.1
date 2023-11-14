@@ -56,7 +56,7 @@
                 echo '<td>'.$Precio.'</td>';
                 echo '<td><img src="imagenes/'.$Imagen.'"width="80" height="80"/></td>';
                 echo '<td>'.$categoria.'</td>';
-                echo '<td><a href="edita_producto.php?id_editar=">Editar</a> </td>';
+                echo '<td><a href="edita_producto.php?id_editar='. $id . '">Editar</a> </td>';
                 echo '<td><a href="elimina_producto.php?id_eliminar='. $id . '">Elimina</a> </td>';
                 echo "</tr>";
                 echo "</form>";
