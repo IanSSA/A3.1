@@ -10,6 +10,14 @@
         }
     </style>
     <?php
+        session_start();
+
+        if(isset($_SESSION['usuario']) && !empty($_SESSION['usuario'])) {
+            echo 'Sesión iniciada correctamente';
+         } else {
+            
+         }
+
         $servername = "localhost";
         $username = "mitiendaonline";
         $password = "mitiendaonline";
