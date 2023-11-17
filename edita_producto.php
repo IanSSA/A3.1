@@ -9,11 +9,18 @@
         <title>Editar producto</title>
 
         <?php
+            session_start();
+
+            if(isset($_SESSION['usuario']) && !empty($_SESSION['usuario'])) {
+                    echo 'Sesión iniciada correctamente';
+                } else {
+                    echo 'sesión no iniciada';
+                    header('Location: form_login.php');
+                }
             $servername = "localhost";
             $username = "mitiendaonline";
             $password = "mitiendaonline";
             $db = "mitiendaonline";
-            session_start();
     
             $conn = new mysqli($servername, $username, $password, $db);
     

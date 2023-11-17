@@ -9,6 +9,16 @@
         <title>Crear productos</title>
 
         <?php
+
+            session_start();
+
+            if(isset($_SESSION['usuario']) && !empty($_SESSION['usuario'])) {
+                echo 'Sesión iniciada correctamente';
+            } else {
+                echo 'sesión no iniciada';
+                header('Location: form_login.php');
+            }
+            
             $servername = "localhost";
             $username = "mitiendaonline";
             $password = "mitiendaonline";

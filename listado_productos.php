@@ -15,14 +15,14 @@
         if(isset($_SESSION['usuario']) && !empty($_SESSION['usuario'])) {
             echo 'Sesión iniciada correctamente';
          } else {
-            
+            echo 'sesión no iniciada';
+            header('Location: form_login.php');
          }
 
         $servername = "localhost";
         $username = "mitiendaonline";
         $password = "mitiendaonline";
         $db = "mitiendaonline";
-        session_start();
 
         $conn = new mysqli($servername, $username, $password, $db);
 
@@ -77,13 +77,20 @@
             echo "</div>";
         }
 
-        /*freeresultset*/
         $result->free();
+
+        if (isset($_POST["cerrar"])){
+            $_SESSION = array();
+            session_destroy();
+        }
     ?>
      <link rel="stylesheet" href="listado_producto.css">
     <title>Listado productos</title>
 </head>
 <body>
-    
+    <form action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="post">
+    <label for="">Cerrar sesión</label>
+        <input type="submit" name="cerrar">
+    </form>
 </body>
 </html>

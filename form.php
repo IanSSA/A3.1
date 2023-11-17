@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="form.css">
     <title>Document</title>
     <?php
+        session_start();
         $servername = "localhost";
         $username = "mitiendaonline";
         $password = "mitiendaonline";
@@ -16,23 +18,22 @@
         die("Connection failed: " . $conn->connect_error);
         }
 
-        echo password_hash("rasmuslerdorf", PASSWORD_DEFAULT)."\n";
-
         $contra = isset($_POST["contraseña"]) ? $_POST["contraseña"] : "";
         $correo = isset($_POST["correo"]) ? $_POST["correo"] : "";
 
-        $contrasena_hash = "SELECT contrasena_hash FROM usuarios2 where correo_electronico='$correo'";
+        $contrasena_hash = "SELECT * FROM usuarios2 where correo_electronico='$correo'";
         $password_hash = $conn->query($contrasena_hash);
         $password_hash = $password_hash->fetch_assoc();
         if (password_verify($contra, $password_hash["contrasena_hash"])){
             echo "La contraseña coincide";
+            $_SESSION["usuario"] = $password_hash["nombre"];
         } else{
             echo "La contraseña no coincide";
         }
-
     ?>
 </head>
 <body>
-    
+<h1><a href="index.html" style="color: black;
+    text-decoration: none;">Volver al menú principal</a></h1>
 </body>
 </html>
