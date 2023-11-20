@@ -13,7 +13,12 @@
             session_start();
 
             if(isset($_SESSION['usuario']) && !empty($_SESSION['usuario'])) {
-                echo 'Sesión iniciada correctamente';
+                echo '<div style=" position: absolute;">
+                <form action="form_login.php" method="post">
+                    <label for="">Cerrar sesión</label>
+                        <input type="submit" name="cerrar">
+                    </form>
+                </div>';
             } else {
                 echo 'sesión no iniciada';
                 header('Location: form_login.php');
@@ -116,6 +121,6 @@
                 <a href="listado_productos.php">Ir al listado</a>
             </form><br>
         </div>
-
+        
     </body>
 </html>

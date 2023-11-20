@@ -5,6 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="form_login.css">
     <title>Document</title>
+    <?php
+    session_start();
+    
+    if (isset($_POST["cerrar"])){
+        $_SESSION = array();
+        session_destroy();
+    }
+    ?>
 </head>
 <body>
     <div id="div">

@@ -13,7 +13,10 @@
         session_start();
 
         if(isset($_SESSION['usuario']) && !empty($_SESSION['usuario'])) {
-            echo 'Sesión iniciada correctamente';
+            echo '<form action="form_login.php" method="post">
+            <label for="">Cerrar sesión</label>
+                <input type="submit" name="cerrar">
+            </form>';
          } else {
             echo 'sesión no iniciada';
             header('Location: form_login.php');
@@ -79,18 +82,10 @@
 
         $result->free();
 
-        if (isset($_POST["cerrar"])){
-            $_SESSION = array();
-            session_destroy();
-        }
     ?>
      <link rel="stylesheet" href="listado_producto.css">
     <title>Listado productos</title>
 </head>
 <body>
-    <form action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="post">
-    <label for="">Cerrar sesión</label>
-        <input type="submit" name="cerrar">
-    </form>
 </body>
 </html>

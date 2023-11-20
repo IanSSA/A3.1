@@ -24,16 +24,22 @@
         $contrasena_hash = "SELECT * FROM usuarios2 where correo_electronico='$correo'";
         $password_hash = $conn->query($contrasena_hash);
         $password_hash = $password_hash->fetch_assoc();
-        if (password_verify($contra, $password_hash["contrasena_hash"])){
-            echo "La contraseña coincide";
-            $_SESSION["usuario"] = $password_hash["nombre"];
+        if ($password_hash){
+            if (password_verify($contra, $password_hash["contrasena_hash"])){
+                echo "La contraseña coincide";
+                $_SESSION["usuario"] = $password_hash["nombre"];
+                header('Location: index.html');
+            } else{
+                echo "La contraseña no coincide";
+            }
         } else{
-            echo "La contraseña no coincide";
+            echo "El correo no se encuentra en la base de datos";
         }
+        
     ?>
 </head>
 <body>
-<h1><a href="index.html" style="color: black;
-    text-decoration: none;">Volver al menú principal</a></h1>
+<h2><a href="form_login.php" style="color: black;
+    text-decoration: none;">Volver a iniciar sesión</a></h2>
 </body>
 </html>
