@@ -27,6 +27,10 @@
         if ($password_hash){
             if (password_verify($contra, $password_hash["contrasena_hash"])){
                 echo "La contraseña coincide";
+                if (isset($_COOKIE['errores_login'])){
+                    $num_errores = htmlspecialchars($_COOKIE['errores_login']);
+                    setcookie('errores_login', 0 , time()+3,154e+7, '/');
+                }
                 $color = $password_hash["color_fondo"];
                 if ($color == ""){
                     if (isset($_COOKIE['color_fondo'])){
@@ -44,7 +48,15 @@
                 $_SESSION["usuario"] = $password_hash["nombre"];
                 header('Location: index.php');
             } else{
+                if (isset($_COOKIE['errores_login'])){
+                    $num_errores = htmlspecialchars($_COOKIE['errores_login']);
+                    setcookie('errores_login',$num_errores +1, time()+3,154e+7, '/');
+                } else {
+                    setcookie('errores_login', 1, time()+3,154e+7);
+                }
                 echo "La contraseña no coincide";
+                $num_errores = $_COOKIE['errores_login'];
+                echo "LLevas " . $num_errores . " errores de inicio de sesión";
             }
         } else{
             echo "El correo no se encuentra en la base de datos";
