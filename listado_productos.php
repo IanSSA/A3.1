@@ -16,7 +16,8 @@
             echo '<form action="form_login.php" method="post">
             <label for="">Cerrar sesión</label>
                 <input type="submit" name="cerrar">
-            </form>';
+            </form>
+            <h1>Sesión iniciada como ' . $_SESSION["usuario"] . '</h1>';
          } else {
             echo 'sesión no iniciada';
             header('Location: form_login.php');

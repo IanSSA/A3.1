@@ -27,8 +27,22 @@
         if ($password_hash){
             if (password_verify($contra, $password_hash["contrasena_hash"])){
                 echo "La contraseña coincide";
+                $color = $password_hash["color_fondo"];
+                if ($color == ""){
+                    if (isset($_COOKIE['color_fondo'])){
+                        setcookie('color_fondo', '#808080', time()+86400, '/');
+                    } else {
+                        setcookie('color_fondo', '#808080', time()+86400);
+                    }
+                } else {
+                    if (isset($_COOKIE['color_fondo'])){
+                        setcookie('color_fondo', $color, time()+86400, '/');
+                    } else {
+                        setcookie('color_fondo', $color, time()+86400);
+                    }
+                }     
                 $_SESSION["usuario"] = $password_hash["nombre"];
-                header('Location: index.html');
+                header('Location: index.php');
             } else{
                 echo "La contraseña no coincide";
             }

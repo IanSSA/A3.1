@@ -13,11 +13,12 @@
             session_start();
 
             if(isset($_SESSION['usuario']) && !empty($_SESSION['usuario'])) {
-                echo '<div style=" position: absolute;">
+                echo '<div style=" position: absolute; margin-left: 0;">
                 <form action="form_login.php" method="post">
                     <label for="">Cerrar sesión</label>
                         <input type="submit" name="cerrar">
                     </form>
+                <h1>Sesión iniciada como ' . $_SESSION["usuario"] . '</h1>
                 </div>';
             } else {
                 echo 'sesión no iniciada';
