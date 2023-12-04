@@ -50,12 +50,16 @@
             } else{
                 if (isset($_COOKIE['errores_login'])){
                     $num_errores = htmlspecialchars($_COOKIE['errores_login']);
+                    $color = htmlspecialchars($_COOKIE['color_fondo']);
+                    echo "LLevas " . $color . " errores de color de sesión<br>";
                     setcookie('errores_login',$num_errores +1, time()+3,154e+7, '/');
                 } else {
-                    setcookie('errores_login', 1, time()+3,154e+7);
+                    $color = htmlspecialchars($_COOKIE['color_fondo']);
+                    echo "LLevas " . $color . " errores de color de sesión<br>";
+                    setcookie('errores_login', 1, time()+3,154e+7, '/');
                 }
                 echo "La contraseña no coincide";
-                $num_errores = $_COOKIE['errores_login'];
+                $num_errores = htmlspecialchars($_COOKIE['errores_login']);
                 echo "LLevas " . $num_errores . " errores de inicio de sesión";
             }
         } else{
